@@ -1,0 +1,103 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--USE ieee.numeric_std.ALL;
+ 
+ENTITY uni_shift1_tb IS
+END uni_shift1_tb;
+ 
+ARCHITECTURE behavior OF uni_shift1_tb IS 
+ 
+    -- Component Declaration for the Unit Under Test (UUT)
+ 
+    COMPONENT uni_shift1
+    PORT(
+         reset : IN  std_logic;
+         si : IN  std_logic;
+         clk : IN  std_logic;
+         load : IN  std_logic;
+         pi : IN  std_logic_vector(3 downto 0);
+         po : OUT  std_logic_vector(3 downto 0);
+         mode : IN  std_logic_vector(1 downto 0);
+         so : OUT  std_logic
+        );
+    END COMPONENT;
+    
+
+   --Inputs
+   signal reset : std_logic := '0';
+   signal si : std_logic := '0';
+   signal clk : std_logic := '0';
+   signal load : std_logic := '0';
+   signal pi : std_logic_vector(3 downto 0) := (others => '0');
+   signal mode : std_logic_vector(1 downto 0) := (others => '0');
+
+ 	--Outputs
+   signal po : std_logic_vector(3 downto 0);
+   signal so : std_logic;
+
+   -- Clock period definitions
+   constant clk_period : time := 10 ns;
+ 
+BEGIN
+ 
+	-- Instantiate the Unit Under Test (UUT)
+   uut: uni_shift1 PORT MAP (
+          reset => reset,
+          si => si,
+          clk => clk,
+          load => load,
+          pi => pi,
+          po => po,
+          mode => mode,
+          so => so
+        );
+
+   -- Clock process definitions
+   clk_process :process
+   begin
+		clk <= '0';
+		wait for clk_period/2;
+		clk <= '1';
+		wait for clk_period/2;
+   end process;
+ 
+
+   -- Stimulus process
+   stim_proc: process
+   begin		
+      -- hold reset state for 100 ns.
+      wait for 100 ns;	
+
+      wait for clk_period*10;
+
+      -- insert stimulus here
+reset<='1';
+wait for 100 ns;
+reset<='0';
+wait for 100 ns;
+mode<="00";
+si<='1';
+wait for 100 ns;
+mode<="01";
+si<='1';
+wait for 100 ns;
+mode<="10";
+load<='1';
+pi<="1011";
+wait for 100 ns;
+load<='0';
+wait for 100 ns;
+mode<="11";
+load<='1';
+pi<="1011";
+wait for 100 ns;
+load<='0';
+		
+
+      wait;
+   end process;
+
+END;

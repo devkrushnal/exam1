@@ -1,0 +1,164 @@
+--------------------------------------------------------------------------------
+-- Company: 
+--------------------------------------------------------------------------------
+-- Company: 
+-- Engineer:
+--
+-- Create Date:   14:35:50 10/25/2023
+-- Design Name:   
+-- Module Name:   C:/Xilinx/ALU/ALU1.vhd
+-- Project Name:  ALU
+-- Target Device:  
+-- Tool versions:  
+-- Description:   
+-- 
+-- VHDL Test Bench Created by ISE for module: ALU
+-- 
+-- Dependencies:
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+--
+-- Notes: 
+-- This testbench has been automatically generated using types std_logic and
+-- std_logic_vector for the ports of the unit under test.  Xilinx recommends
+-- that these types always be used for the top-level I/O of a design in order
+-- to guarantee that the testbench will bind correctly to the post-implementation 
+-- simulation model.
+--------------------------------------------------------------------------------
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+ 
+-- Uncomment the following library declaration if using
+-- arithmetic functions with Signed or Unsigned values
+--USE ieee.numeric_std.ALL;
+ 
+ENTITY ALU_1 IS
+END ALU_1;
+ 
+ARCHITECTURE behavior OF ALU_1 IS 
+ 
+    -- Component Declaration for the Unit Under Test (UUT)
+ 
+    COMPONENT ALU
+    PORT(
+         a : IN  std_logic_vector(3 downto 0);
+         b : IN  std_logic_vector(3 downto 0);
+         Opcode : IN  std_logic_vector(2 downto 0);
+         Y : OUT  std_logic_vector(4 downto 0)
+        );
+    END COMPONENT;
+    
+
+   --Inputs
+   signal a : std_logic_vector(3 downto 0) := (others => '0');
+   signal b : std_logic_vector(3 downto 0) := (others => '0');
+   signal Opcode : std_logic_vector(2 downto 0) := (others => '0');
+
+ 	--Outputs
+   signal Y : std_logic_vector(4 downto 0);
+   -- No clocks detected in port list. Replace <clock> below with 
+   -- appropriate port name 
+ 
+   
+ 
+BEGIN
+ 
+	-- Instantiate the Unit Under Test (UUT)
+   uut: ALU PORT MAP (
+          a => a,
+          b => b,
+          Opcode => Opcode,
+          Y => Y
+        );
+
+  
+ 
+
+   -- Stimulus process
+   stim_proc: process
+   begin		
+      -- hold reset state for 100 ns.
+      
+      -- insert stimulus here 
+a<= "1000";
+b <= "0110";
+  Opcode <= "000";
+wait for 10 ns;
+
+a<= "1000";
+b <= "0110";
+  Opcode <= "001";
+wait for 10 ns;
+
+a<= "1000";
+b <= "0110";
+  Opcode <= "010";
+wait for 10 ns;
+
+a<= "1000";
+b <= "0110";
+  Opcode <= "011";
+wait for 10 ns;
+
+a<= "1000";
+b <= "0110";
+  Opcode <= "100";
+wait for 10 ns;
+
+a<= "1000";
+b <= "0110";
+  Opcode <= "101";
+wait for 10 ns;
+
+a<= "1000";
+b <= "0110";
+  Opcode <= "110";
+wait for 10 ns;
+
+a<= "1000";
+b <= "0110";
+  Opcode <= "111";
+wait for 10 ns;
+
+
+
+    
+   end process;
+
+END;
+
+
+
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+Entity ALU is
+ 		Port ( a,b: in STD_LOGIC_VECTOR ( 3 downto 0);
+    		Opcode : in STD_LOGIC_VECTOR ( 2 downto 0);
+		Y : out  STD_LOGIC_VECTOR ( 4 downto 0));
+End ALU;
+architecture Behavioral of ALU is	
+	SIGNAL as,bs,ys : STD_LOGIC_VECTOR(4 downto 0);
+Begin
+as<='0'&a;
+bs<='0'&b;
+process(as,bs,opcode,ys)
+begin
+		case opcode is 
+			when  "000"=> ys<=as+bs; y(4)<=ys(4);
+when  "001"=> ys<=as+bs; y(4)<=ys(4);	
+when  "010"=> ys<=as and bs; 
+when  "011"=> ys<=as nand bs; 
+when  "100"=> ys<=as xor bs; 
+when  "101"=> ys<=as xnor bs; 
+when  "110"=> ys<=as or bs; 
+when  others=>ys<= '0' & as (3 downto 0);
+ 	end case;
+end process;
+y(3 downto 0)<=ys(3 downto 0);
+end Behavioral;
